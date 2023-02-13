@@ -75,12 +75,19 @@ public class EvilSpirit : MonoBehaviour
                     agent.SetDestination(startPos + (Vector3.back * range));
                     break;
             }
-            
+
+            // set the difference
+            Vector2 difference = new Vector2(1,1);
+
             // when the spirit is close enough to the destination, continue. else wait. ps: I have to work on this
-            while(transform.position.x - agent.destination.x < destinationOffset &&
-                transform.position.y - agent.destination.y < destinationOffset)
+            while(difference.x > destinationOffset ||
+                difference.y > destinationOffset)
             {
                 yield return null;
+
+                // get the difference between the players position and the destination
+                difference = new Vector2(Mathf.Abs(transform.position.x - agent.destination.x),
+                Mathf.Abs(transform.position.z - agent.destination.z));
             }
         }
     }
