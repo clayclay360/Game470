@@ -374,7 +374,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh36080
+  m_Name: pb_Mesh20456
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -538,7 +538,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21804
+  m_Name: pb_Mesh-3484
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15767,6 +15767,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2270874230613622302, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3021132182582067830, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
       propertyPath: m_Name
       value: Player
@@ -15813,6 +15817,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3021132182582067832, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021132182582067833, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
+      propertyPath: turningspeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660307432350516094, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
+      propertyPath: m_Radius
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668742505515878206, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991375947381592619, guid: aacf034bb3ec44a4ab494f7441c9e5bf, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
