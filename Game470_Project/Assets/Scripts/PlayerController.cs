@@ -10,9 +10,13 @@ public class PlayerController : MonoBehaviour
     public float spiritCooldown; //The ammount of time the player has to wait to reenter their spirit form after leaving it
     public float spiritReturnDistance; //The distance from which the player can manually reenter their body
     public bool isInSpiritForm; //This should be false by default
+    public float interactionRange;
 
     public GameObject playerBody;
-    public GameObject playerSpirit;
+    public GameObject playerSpirit; 
+    public GameObject form;
+    public GameObject holdPoint;
+    public GameObject heldObject;
     public Camera mainCamera;
 
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
@@ -22,7 +26,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 rot = Vector2.zero;
     public Vector3 moveVal;
-    private GameObject form;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
         #region Movement
         // Player Movement
         Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
-        Debug.Log(mainCamera.transform.right + " , " + 0 + " , " + realFoward);
+        //Debug.Log(mainCamera.transform.right + " , " + 0 + " , " + realFoward);
         if (Mathf.Abs(moveVal.x) > 0 || Mathf.Abs(moveVal.z) > 0)
         {
             if (moveVal.magnitude > 0.1f)
@@ -98,6 +101,31 @@ public class PlayerController : MonoBehaviour
     public void OnSwitchForm(InputValue value)
     {
         SwitchForm();
+    }
+
+    public void OnInteract(InputValue value)
+    {
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, interactionRange))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+            Debug.Log(hitObject);
+            if(hitObject.name == "Mason" && heldObject != null)
+            {
+                heldObject.transform.SetParent(null);
+                heldObject.GetComponentInChildren<Collider>().enabled = true;
+                heldObject = null;
+            }
+            else if(hitObject.GetComponentInParent<Interact>() != null)
+            {
+                hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+            }
+        }
+        else
+        {
+            Debug.Log("Nothing hit");
+        }
     }
 
     public void SwitchForm()
