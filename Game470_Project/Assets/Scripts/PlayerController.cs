@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed;
-    public float turningspeed;
     public float spiritTime; //The ammount of time the player can spend in spirit form
     public float spiritCooldown; //The ammount of time the player has to wait to reenter their spirit form after leaving it
     public float spiritReturnDistance; //The distance from which the player can manually reenter their body
@@ -17,10 +17,11 @@ public class PlayerController : MonoBehaviour
 
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
+    private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
     private bool canEnterSpiritForm = true;
 
-    private Vector2 rot;
-    private Vector2 oldMousePosition;
+    public Vector2 rot = Vector2.zero;
+    public Vector3 moveVal;
     private GameObject form;
 
     // Start is called before the first frame update
@@ -34,29 +35,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         #region Movement
-        //Moving forward
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        // Player Movement
+        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
+        Debug.Log(mainCamera.transform.right + " , " + 0 + " , " + realFoward);
+        if (Mathf.Abs(moveVal.x) > 0 || Mathf.Abs(moveVal.z) > 0)
         {
-            Vector3 dir = new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z) * speed * Time.deltaTime;
-            form.transform.position += dir * speed * Time.deltaTime;
-        }
-        //Moving backward
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            Vector3 dir = new Vector3(mainCamera.transform.forward.x, 0, mainCamera.transform.forward.z) * speed * Time.deltaTime * -1;
-            form.transform.position += dir * speed * Time.deltaTime;
-        }
-        //Moving left
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            Vector3 dir = new Vector3(mainCamera.transform.right.x, 0, mainCamera.transform.right.z) * speed * Time.deltaTime * -1;
-            form.transform.position += dir * speed * Time.deltaTime;
-        }
-        //Moving right
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            Vector3 dir = new Vector3(mainCamera.transform.right.x, 0, mainCamera.transform.right.z) * speed * Time.deltaTime;
-            form.transform.position += dir * speed * Time.deltaTime;
+            if (moveVal.magnitude > 0.1f)
+            {
+                form.transform.position += speed * Time.deltaTime * moveVal;
+            }
         }
         //Spirit moves with body when not in spirit form
         if (!isInSpiritForm)
@@ -64,23 +51,9 @@ public class PlayerController : MonoBehaviour
             playerSpirit.transform.position = playerBody.transform.position;
             mainCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
         }
-        //Body does not follow spirit when in spirit form.
-        else
-        {
-            mainCamera.transform.position = playerSpirit.transform.position;
-        }
-        //Turning right/left and looking up/down
-        rot.x -= Input.GetAxis("Mouse X") * turningspeed;
-        rot.y -= Input.GetAxis("Mouse Y") * turningspeed;
-        form.transform.localRotation = Quaternion.Euler(0, rot.x, 0);
-        mainCamera.transform.localRotation = Quaternion.Euler(rot.y, 0, 0);
-        #endregion
-        #region Actions
-        //Enter spirit form
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchForm();
-        }
+        //Looking Around
+        form.transform.localEulerAngles = new Vector3(0, rot.x, 0);
+        mainCamera.transform.localEulerAngles = new Vector3(rot.y, 0, 0);
         #endregion
         #region Timers
         if (isInSpiritForm)
@@ -94,7 +67,7 @@ public class PlayerController : MonoBehaviour
         if (!isInSpiritForm)
         {
             bodyTimer += Time.deltaTime;
-            if(bodyTimer < spiritCooldown)
+            if(bodyTimer < spiritCooldown && spiritFormCounter > 0)
             {
                 canEnterSpiritForm = false;
             }
@@ -104,6 +77,27 @@ public class PlayerController : MonoBehaviour
             }
         }
         #endregion
+    }
+
+    public void OnMove(InputValue value)
+    {
+        Vector2 input = value.Get<Vector2>();
+        moveVal = new Vector3(input.x, 0f, input.y);
+        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
+        moveVal = moveVal.x * mainCamera.transform.right + moveVal.z * realFoward;
+    }
+
+    public void OnLookAround(InputValue value)
+    {
+        Vector2 input = value.Get<Vector2>();
+        rot.x += input.x;
+        rot.y -= input.y;
+        Mathf.Clamp(rot.y, -90, 90);
+    }
+
+    public void OnSwitchForm(InputValue value)
+    {
+        SwitchForm();
     }
 
     public void SwitchForm()
