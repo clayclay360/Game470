@@ -30,31 +30,46 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
     }
 
     // Update is called once per frame
     void Update()
     {
-        #region Movement
+        #region Move
         // Player Movement
-        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
-        //Debug.Log(mainCamera.transform.right + " , " + 0 + " , " + realFoward);
-        if (Mathf.Abs(moveVal.x) > 0 || Mathf.Abs(moveVal.z) > 0)
-        {
-            if (moveVal.magnitude > 0.1f)
-            {
-                form.transform.position += speed * Time.deltaTime * moveVal;
-            }
-        }
+        Vector2 input = gameObject.GetComponent<PlayerInput>().actions["Move"].ReadValue<Vector2>();
+        moveVal = new Vector3(input.x, 0f, input.y);
+
+        Vector3 realFoward = Vector3.Cross(form.transform.right, Vector3.up);
+        moveVal = moveVal.x * mainCamera.transform.right + moveVal.z * realFoward;
+        moveVal.y = 0f;
+
+        form.transform.position += speed * Time.deltaTime * moveVal;
         //Spirit moves with body when not in spirit form
         if (!isInSpiritForm)
         {
             playerSpirit.transform.position = playerBody.transform.position;
             mainCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
         }
+        #endregion
+        #region Look Around
         //Looking Around
+        Vector2 cameraInput = gameObject.GetComponent<PlayerInput>().actions["Look Around"].ReadValue<Vector2>();
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            cameraInput = Vector2.zero;
+        }
+        rot.x += cameraInput.x;
+        rot.y -= cameraInput.y;
+        if (rot.y < -90)
+        {
+            rot.y = -90;
+        }
+        else if (rot.y > 90)
+        {
+            rot.y = 90;
+        }
         form.transform.localEulerAngles = new Vector3(0, rot.x, 0);
         mainCamera.transform.localEulerAngles = new Vector3(rot.y, 0, 0);
         #endregion
@@ -82,22 +97,6 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
-    public void OnMove(InputValue value)
-    {
-        Vector2 input = value.Get<Vector2>();
-        moveVal = new Vector3(input.x, 0f, input.y);
-        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
-        moveVal = moveVal.x * mainCamera.transform.right + moveVal.z * realFoward;
-    }
-
-    public void OnLookAround(InputValue value)
-    {
-        Vector2 input = value.Get<Vector2>();
-        rot.x += input.x;
-        rot.y -= input.y;
-        Mathf.Clamp(rot.y, -90, 90);
-    }
-
     public void OnSwitchForm(InputValue value)
     {
         SwitchForm();
@@ -105,26 +104,33 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
-        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, interactionRange))
+        if(Cursor.lockState == CursorLockMode.Locked)
         {
-            GameObject hitObject = hit.collider.gameObject;
-            Debug.Log(hitObject);
-            if(hitObject.name == "Mason" && heldObject != null)
+            Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, interactionRange))
             {
-                heldObject.transform.SetParent(null);
-                heldObject.GetComponentInChildren<Collider>().enabled = true;
-                heldObject = null;
+                GameObject hitObject = hit.collider.gameObject;
+                Debug.Log(hitObject);
+                if (hitObject.name == "Mason" && heldObject != null)
+                {
+                    heldObject.transform.SetParent(null);
+                    heldObject.GetComponentInChildren<Collider>().enabled = true;
+                    heldObject = null;
+                }
+                else if (hitObject.GetComponentInParent<Interact>() != null)
+                {
+                    hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                }
             }
-            else if(hitObject.GetComponentInParent<Interact>() != null)
+            else
             {
-                hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                Debug.Log("Nothing hit");
             }
         }
         else
         {
-            Debug.Log("Nothing hit");
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
