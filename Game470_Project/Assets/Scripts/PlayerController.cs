@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     public GameObject holdPoint;
     public GameObject heldObject;
     public Camera mainCamera;
-    public CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera virtualBodyCamera, virutalSpiritCamera;
+    private CinemachineVirtualCamera virtualMainCamera;
 
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
+        virtualMainCamera = virtualBodyCamera;
     }
 
     // Update is called once per frame
@@ -48,24 +50,24 @@ public class PlayerController : MonoBehaviour
 
         if (moveVertical != 0f)
         {
-            forwardMovement = new Vector3(virtualCamera.transform.forward.x, 0, virtualCamera.transform.forward.z);
+            forwardMovement = new Vector3(virtualMainCamera.transform.forward.x, 0, virtualMainCamera.transform.forward.z);
         }
         forwardMovement.Normalize();
-        transform.position += forwardMovement * Time.deltaTime * speed * moveVertical;
+        form.transform.position += forwardMovement * Time.deltaTime * speed * moveVertical;
 
         //move left and right
         if (moveHorizontal != 0f)
         {
-            rightMovement = new Vector3(virtualCamera.transform.right.x, 0, virtualCamera.transform.right.z);
+            rightMovement = new Vector3(virtualMainCamera.transform.right.x, 0, virtualMainCamera.transform.right.z);
         }
         rightMovement.Normalize();
-        transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
+        form.transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
 
         //Spirit moves with body when not in spirit form
         if (!isInSpiritForm)
         {
             playerSpirit.transform.position = playerBody.transform.position;
-            virtualCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
+            virtualBodyCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
         }
         #endregion
         #region Timers
@@ -131,11 +133,13 @@ public class PlayerController : MonoBehaviour
     public void SwitchForm()
     {
         float distanceToBody = Vector3.Distance(playerBody.transform.position, playerSpirit.transform.position);
+
         Debug.Log(distanceToBody.ToString());
         if (isInSpiritForm  && (distanceToBody <= spiritReturnDistance || spiritTimer >= spiritTime))
         {
             form = playerBody;
-            mainCamera.transform.SetParent(form.transform);
+            virtualMainCamera = virtualBodyCamera;
+            virtualBodyCamera.gameObject.SetActive(true);
             spiritTimer = 0;
             bodyTimer = 0;
             playerSpirit.SetActive(false);
@@ -145,7 +149,8 @@ public class PlayerController : MonoBehaviour
         {
             playerSpirit.SetActive(true);
             form = playerSpirit;
-            mainCamera.transform.SetParent(form.transform);
+            virtualMainCamera = virutalSpiritCamera;
+            virtualBodyCamera.gameObject.SetActive(false);
             spiritTimer = 0;
             bodyTimer = 0;
             isInSpiritForm = true;
