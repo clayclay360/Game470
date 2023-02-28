@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public GameObject holdPoint;
     public GameObject heldObject;
     public Camera mainCamera;
+    public CinemachineVirtualCamera virtualCamera;
 
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
@@ -39,24 +41,32 @@ public class PlayerController : MonoBehaviour
     {
         #region Movement
         // Player Movement
-        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
-        //Debug.Log(mainCamera.transform.right + " , " + 0 + " , " + realFoward);
-        if (Mathf.Abs(moveVal.x) > 0 || Mathf.Abs(moveVal.z) > 0)
+        Vector3 forwardMovement = Vector3.zero;
+        Vector3 rightMovement = Vector3.zero;
+        float moveHorizontal = moveVal.x;
+        float moveVertical = moveVal.z;
+
+        if (moveVertical != 0f)
         {
-            if (moveVal.magnitude > 0.1f)
-            {
-                form.transform.position += speed * Time.deltaTime * moveVal;
-            }
+            forwardMovement = new Vector3(virtualCamera.transform.forward.x, 0, virtualCamera.transform.forward.z);
         }
+        forwardMovement.Normalize();
+        transform.position += forwardMovement * Time.deltaTime * speed * moveVertical;
+
+        //move left and right
+        if (moveHorizontal != 0f)
+        {
+            rightMovement = new Vector3(virtualCamera.transform.right.x, 0, virtualCamera.transform.right.z);
+        }
+        rightMovement.Normalize();
+        transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
+
         //Spirit moves with body when not in spirit form
         if (!isInSpiritForm)
         {
             playerSpirit.transform.position = playerBody.transform.position;
-            mainCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
+            virtualCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
         }
-        //Looking Around
-        form.transform.localEulerAngles = new Vector3(0, rot.x, 0);
-        mainCamera.transform.localEulerAngles = new Vector3(rot.y, 0, 0);
         #endregion
         #region Timers
         if (isInSpiritForm)
@@ -86,16 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 input = value.Get<Vector2>();
         moveVal = new Vector3(input.x, 0f, input.y);
-        Vector3 realFoward = Vector3.Cross(mainCamera.transform.right, Vector3.up);
-        moveVal = moveVal.x * mainCamera.transform.right + moveVal.z * realFoward;
-    }
-
-    public void OnLookAround(InputValue value)
-    {
-        Vector2 input = value.Get<Vector2>();
-        rot.x += input.x;
-        rot.y -= input.y;
-        Mathf.Clamp(rot.y, -90, 90);
     }
 
     public void OnSwitchForm(InputValue value)
