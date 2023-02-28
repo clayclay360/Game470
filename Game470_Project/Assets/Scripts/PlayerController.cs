@@ -119,9 +119,16 @@ public class PlayerController : MonoBehaviour
                 heldObject.GetComponentInChildren<Collider>().enabled = true;
                 heldObject = null;
             }
-            else if(hitObject.GetComponentInParent<Interact>() != null)
+            else
             {
-                hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                if (hitObject.GetComponentInParent<Interact>() != null)
+                {
+                    hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                }
+                else if(hitObject.GetComponent<Interact>() != null)
+                {
+                    hitObject.GetComponent<Interact>().Interaction(gameObject);
+                }
             }
         }
         else
