@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class StartingRoomPuzzle : MonoBehaviour
 {
+    [Header("Puzzle")]
     public bool completed;
-    public int[] sequence = new int[3];
     public int index;
+
+    [Space]
+    public GameObject door;
+
+    [Header("Books")]
+    public Material[] mat;
 
     private Book[] books;
     private string[] idTags = new string[3];
@@ -25,10 +31,12 @@ public class StartingRoomPuzzle : MonoBehaviour
         books = FindObjectsOfType<Book>();
         string[] tagStorage = new string[3];
         
+        // set tag storage to be null
         tagStorage[0] = "Null";
         tagStorage[1] = "Null";
         tagStorage[2] = "Null";
 
+        // this randomizes the book numbers
         for (int i = 0; i < books.Length; i++)
         {
             int index = Random.Range(0, books.Length);
@@ -37,19 +45,43 @@ public class StartingRoomPuzzle : MonoBehaviour
             {
                 if (tagStorage[c] == idTags[index])
                 {
-                    books[i].ID = idTags[index];
                     i--;
+                    break;
                 }
-                else
+                else if(tagStorage[c] == "Null")
                 {
+                    books[i].ID = idTags[index];
                     tagStorage[c] = idTags[index];
+                    books[i].addMaterial(mat[index]);
                     break;
                 }
             }
-                
-
-
         }
+    }
+
+    public void Puzzle(string ID)
+    {
+        if (idTags[index] == ID)
+        {
+            index++;
+            Debug.Log("Good Job");
+        }
+        else
+        {
+            Debug.Log("Start Over");
+            index = 0;
+        }
+
+        if(index >= idTags.Length - 1)
+        {
+            completed = true;
+            Complete();
+        }
+    }
+
+    public void Complete()
+    {
+        door.SetActive(false);
     }
 
 }
