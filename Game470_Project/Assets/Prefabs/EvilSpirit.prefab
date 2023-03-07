@@ -620,4 +620,5 @@ MonoBehaviour:
   range: 1
   destinationOffset: 0.15
   dir: 0
+  player: {fileID: 1437097649257368174, guid: 1bbe8f8eca6f1f84f87a3ab0960ad146, type: 3}
   delay: 2

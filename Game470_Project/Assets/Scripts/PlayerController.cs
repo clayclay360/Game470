@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         if(Physics.Raycast(ray, out hit, interactionRange))
         {
             GameObject hitObject = hit.collider.gameObject;
-            Debug.Log(hitObject);
+            //Debug.Log(hitObject);
             if(hitObject.name == "Mason" && heldObject != null)
             {
                 heldObject.transform.SetParent(null);
