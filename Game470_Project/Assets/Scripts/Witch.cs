@@ -8,18 +8,17 @@ public class Witch : MonoBehaviour
     [Header("Variables")]
     public float speed;
     public float angularSpeed;
-    public bool canRoam, isAlive;
+    public bool canRoam, isAlive, isRoaming;
 
 
     [Header("Roam")]
     public float delay;
     public float destinationOffset;
     public Transform[] locations;
+    [HideInInspector] public NavMeshAgent agent;
 
 
     private int lastLocationIndex;
-
-    private NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +32,18 @@ public class Witch : MonoBehaviour
     {
         agent.speed = speed;
         agent.angularSpeed = angularSpeed;
+
+        if (canRoam && !isRoaming)
+        {
+            StartCoroutine(Roam());
+        }
     }
 
     IEnumerator Roam()
     {
         while(isAlive && canRoam)
         {
+            isRoaming = true;
             int locationIndex = -1;
 
             yield return new WaitForSeconds(delay); //wait

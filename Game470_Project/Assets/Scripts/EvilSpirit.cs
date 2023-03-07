@@ -24,6 +24,7 @@ public class EvilSpirit : MonoBehaviour
     public GameObject player;
     public GameObject witch;
     private PlayerController playerScript;
+    private Witch witchScript;
 
     private float trapTimer = 0f; //The ammount of time the player has been trapped for
     private float cooldownTimer = 0f; //The ammount of time since the player was last trapped by this spirit
@@ -49,6 +50,7 @@ public class EvilSpirit : MonoBehaviour
         #endregion
 
         playerScript = player.GetComponent<PlayerController>();
+        witchScript = witch.GetComponent<Witch>();
 
         startPos = new Vector3(transform.position.x,0f, transform.position.z); // get the players start pos
         StartCoroutine(Roam()); // start roaming
@@ -71,6 +73,7 @@ public class EvilSpirit : MonoBehaviour
                 isTrappingPlayer = false;
                 trapTimer = 0;
                 canTrapPlayer = false;
+                witchScript.canRoam = true;
                 playerScript.speed = 1;
             }
         }
@@ -100,6 +103,9 @@ public class EvilSpirit : MonoBehaviour
             {
                 isTrappingPlayer = true;
                 isRoaming = false;
+                witchScript.isRoaming = false;
+                witchScript.canRoam = false;
+                witchScript.agent.destination = transform.position;
             }
         }
     }
