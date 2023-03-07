@@ -428,7 +428,7 @@ MeshCollider:
   m_GameObject: {fileID: 7143313730248025303}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -617,8 +617,14 @@ MonoBehaviour:
   speed: 1
   angularSpeed: 300
   isAlive: 1
+  isRoaming: 0
   range: 1
   destinationOffset: 0.15
   dir: 0
-  player: {fileID: 1437097649257368174, guid: 1bbe8f8eca6f1f84f87a3ab0960ad146, type: 3}
+  isTrappingPlayer: 0
+  canTrapPlayer: 1
+  trapTime: 10
+  trapCooldown: 5
+  player: {fileID: 0}
+  witch: {fileID: 0}
   delay: 2
