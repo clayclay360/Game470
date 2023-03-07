@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,9 +34,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(mainCamera.cullingMask);
         Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
         virtualMainCamera = virtualBodyCamera;
+        mainCamera.GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -151,6 +154,7 @@ public class PlayerController : MonoBehaviour
             bodyTimer = 0;
             playerSpirit.SetActive(false);
             isInSpiritForm = false;
+            mainCamera.cullingMask = 3959;
         }
         else if(canEnterSpiritForm)
         {
@@ -161,6 +165,7 @@ public class PlayerController : MonoBehaviour
             spiritTimer = 0;
             bodyTimer = 0;
             isInSpiritForm = true;
+            mainCamera.cullingMask = -1;
         }
     }
 }

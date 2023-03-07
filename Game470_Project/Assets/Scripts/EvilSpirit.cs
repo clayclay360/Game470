@@ -21,8 +21,7 @@ public class EvilSpirit : MonoBehaviour
     public bool canTrapPlayer;
     public float trapTime; //The ammount of time the Evil Spirit will trap the player for
     public float trapCooldown; //The ammount of time before the Evil Spirit can trap the player again after releasing them
-    public GameObject player;
-    public GameObject witch;
+
     private PlayerController playerScript;
     private Witch witchScript;
 
@@ -49,8 +48,8 @@ public class EvilSpirit : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         #endregion
 
-        playerScript = player.GetComponent<PlayerController>();
-        witchScript = witch.GetComponent<Witch>();
+        playerScript = FindObjectOfType<PlayerController>();
+        witchScript = FindObjectOfType<Witch>();
 
         startPos = new Vector3(transform.position.x,0f, transform.position.z); // get the players start pos
         StartCoroutine(Roam()); // start roaming
@@ -97,7 +96,7 @@ public class EvilSpirit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.parent.gameObject == player)
+        if (collision.gameObject.tag == "Player")
         {
             if (playerScript.isInSpiritForm && canTrapPlayer)
             {

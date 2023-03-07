@@ -16125,10 +16125,6 @@ PrefabInstance:
       value: Witch
       objectReference: {fileID: 0}
     - target: {fileID: 6227437623667257867, guid: 444d144074d180a4784fb9b8545a2555, type: 3}
-      propertyPath: isRoaming
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6227437623667257867, guid: 444d144074d180a4784fb9b8545a2555, type: 3}
       propertyPath: locations.Array.data[0]
       value: 
       objectReference: {fileID: 2584817}
