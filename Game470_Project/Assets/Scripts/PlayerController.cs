@@ -158,6 +158,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(canEnterSpiritForm)
         {
+            virutalSpiritCamera.transform.rotation = Quaternion.Euler(Vector3.zero);
             playerSpirit.SetActive(true);
             form = playerSpirit;
             virtualMainCamera = virutalSpiritCamera;

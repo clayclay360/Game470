@@ -8,7 +8,7 @@ public class Witch : MonoBehaviour
     [Header("Variables")]
     public float speed;
     public float angularSpeed;
-    public bool canRoam, isAlive, isRoaming;
+    public bool canRoam, canChase,isAlive, isRoaming, isChasing;
 
 
     [Header("Roam")]
@@ -16,6 +16,9 @@ public class Witch : MonoBehaviour
     public float destinationOffset;
     public Transform[] locations;
     [HideInInspector] public NavMeshAgent agent;
+
+    private GameObject player;
+
 
 
     private int lastLocationIndex;
@@ -36,6 +39,11 @@ public class Witch : MonoBehaviour
         if (canRoam && !isRoaming)
         {
             StartCoroutine(Roam());
+        }
+
+        if (isChasing)
+        {
+            agent.SetDestination(player.transform.position);
         }
     }
 
@@ -70,6 +78,19 @@ public class Witch : MonoBehaviour
                 difference = new Vector2(Mathf.Abs(transform.position.x - agent.destination.x),
                 Mathf.Abs(transform.position.z - agent.destination.z));
             }
+        }
+    }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            Debug.Log("Hello");
+            canRoam = false;
+            isChasing = true;
+            player = other.gameObject;
         }
     }
 }
