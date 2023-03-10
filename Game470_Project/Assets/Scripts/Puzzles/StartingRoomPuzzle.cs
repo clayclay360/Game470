@@ -9,7 +9,7 @@ public class StartingRoomPuzzle : MonoBehaviour
     public int index;
 
     [Space]
-    public GameObject door;
+    public Door door;
 
     [Header("Books")]
     public Material[] mat;
@@ -24,6 +24,8 @@ public class StartingRoomPuzzle : MonoBehaviour
         idTags[2] = "639";
 
         RandomizeBooks();
+
+        door.GetComponent<Door>();
     }
 
     public void RandomizeBooks()
@@ -72,7 +74,7 @@ public class StartingRoomPuzzle : MonoBehaviour
             index = 0;
         }
 
-        if(index >= idTags.Length - 1)
+        if(index >= idTags.Length)
         {
             completed = true;
             Complete();
@@ -81,7 +83,7 @@ public class StartingRoomPuzzle : MonoBehaviour
 
     public void Complete()
     {
-        door.SetActive(false);
+        door.locked = false; ;
     }
 
 }
