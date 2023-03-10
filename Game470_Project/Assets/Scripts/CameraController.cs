@@ -13,15 +13,17 @@ public class CameraController : MonoBehaviour
     public int internCoeffY = 100;
     public float minY = -70;
     public float maxY = 70;
+    //[HideInInspector]
+    public float moveVertical = 0f, moveHorizontal = 0f;
+
 
     private Vector2 rot;
-    private float moveVertical = 0f, moveHorizontal = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        moveHorizontal = 0f;
-        moveVertical = 0;
+        //moveHorizontal = 0f;
+        //moveVertical = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

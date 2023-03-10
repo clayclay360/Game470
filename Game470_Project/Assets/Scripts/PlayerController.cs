@@ -20,9 +20,10 @@ public class PlayerController : MonoBehaviour
     public GameObject holdPoint;
     public GameObject heldObject;
     public Camera mainCamera;
-    public CinemachineVirtualCamera virtualBodyCamera, virutalSpiritCamera;
-    private CinemachineVirtualCamera virtualMainCamera;
+    public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
 
+    private CinemachineVirtualCamera virtualMainCamera;
+    private CameraController bodyCameraController, spiritCameraController;
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
     private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
@@ -34,11 +35,12 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(mainCamera.cullingMask);
         Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
         virtualMainCamera = virtualBodyCamera;
         mainCamera.GetComponent<Camera>();
+        bodyCameraController = virtualBodyCamera.GetComponent<CameraController>();
+        spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>();
     }
 
     // Update is called once per frame
@@ -95,6 +97,12 @@ public class PlayerController : MonoBehaviour
             }
         }
         #endregion
+
+        if (!isInSpiritForm)
+        {
+            spiritCameraController.moveHorizontal = bodyCameraController.moveHorizontal;
+            spiritCameraController.moveVertical = bodyCameraController.moveVertical;
+        }
     }
 
     public void OnMove(InputValue value)
@@ -158,10 +166,9 @@ public class PlayerController : MonoBehaviour
         }
         else if(canEnterSpiritForm)
         {
-            virutalSpiritCamera.transform.rotation = Quaternion.Euler(Vector3.zero);
             playerSpirit.SetActive(true);
             form = playerSpirit;
-            virtualMainCamera = virutalSpiritCamera;
+            virtualMainCamera = virtualSpiritCamera;
             virtualBodyCamera.gameObject.SetActive(false);
             spiritTimer = 0;
             bodyTimer = 0;
