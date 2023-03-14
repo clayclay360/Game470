@@ -22,8 +22,10 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
 
+    private CinemachineBrain cinemachineBrain;
     private CinemachineVirtualCamera virtualMainCamera;
     private CameraController bodyCameraController, spiritCameraController;
+    private PostProcessingScript postProcessingScript;
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
     private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
         form = playerBody;
         virtualMainCamera = virtualBodyCamera;
         mainCamera.GetComponent<Camera>();
+        cinemachineBrain = FindObjectOfType<CinemachineBrain>();
+        postProcessingScript = FindObjectOfType<PostProcessingScript>();
         bodyCameraController = virtualBodyCamera.GetComponent<CameraController>();
         spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>();
     }
@@ -175,5 +179,20 @@ public class PlayerController : MonoBehaviour
             isInSpiritForm = true;
             mainCamera.cullingMask = -1;
         }
+        StartCoroutine(PostProcessingTimer());
+    }
+
+    public IEnumerator PostProcessingTimer()
+    {
+        if (!isInSpiritForm)
+        {
+            yield return new WaitForSeconds(cinemachineBrain.m_DefaultBlend.m_Time);
+        }
+        else
+        {
+            yield return null;
+        }
+
+        postProcessingScript.LensView(isInSpiritForm);
     }
 }
