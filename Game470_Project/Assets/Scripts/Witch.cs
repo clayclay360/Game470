@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
 
 public class Witch : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class Witch : MonoBehaviour
     public float delay;
     public float destinationOffset;
     public Transform[] locations;
+
+    [Header("Animator")]
+    public Animator animator;
+
+    [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
 
     private GameObject player;
-
-
 
     private int lastLocationIndex;
 
@@ -27,6 +31,9 @@ public class Witch : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        animator.GetComponent<Animator>();
+
         StartCoroutine(Roam());
     }
 
@@ -54,7 +61,13 @@ public class Witch : MonoBehaviour
             isRoaming = true;
             int locationIndex = -1;
 
+            // set animators
+            animator.SetFloat("Blend", 0);
+
             yield return new WaitForSeconds(delay); //wait
+
+            // set animators
+            animator.SetFloat("Blend", 1);
 
             do
             {
@@ -80,8 +93,6 @@ public class Witch : MonoBehaviour
             }
         }
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {
