@@ -51,7 +51,7 @@ public class EvilSpirit : MonoBehaviour
         playerScript = FindObjectOfType<PlayerController>();
         witchScript = FindObjectOfType<Witch>();
 
-        startPos = new Vector3(transform.position.x,0f, transform.position.z); // get the players start pos
+        startPos = new Vector3(transform.position.x,transform.position.y, transform.position.z); // get the players start pos
         StartCoroutine(Roam()); // start roaming
     }
 

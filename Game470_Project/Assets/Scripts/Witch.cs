@@ -20,6 +20,10 @@ public class Witch : MonoBehaviour
     [Header("Animator")]
     public Animator animator;
 
+    [Header("Linecast")]
+    public Transform lincecastStart;
+    public Transform linecastEnd;
+
     [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
 
@@ -52,6 +56,8 @@ public class Witch : MonoBehaviour
         {
             agent.SetDestination(player.transform.position);
         }
+
+        Linecast();
     }
 
     IEnumerator Roam()
@@ -102,6 +108,16 @@ public class Witch : MonoBehaviour
             canRoam = false;
             isChasing = true;
             player = other.gameObject;
+        }
+    }
+
+    private void Linecast()
+    {
+        RaycastHit hit;
+        
+        if(Physics.Linecast(lincecastStart.position, linecastEnd.position, out hit))
+        {
+            Debug.Log(hit.collider.gameObject.tag);
         }
     }
 }
