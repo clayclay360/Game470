@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
+using UnityEngine.InputSystem.HID;
 
 public class Witch : MonoBehaviour
 {
     [Header("Variables")]
-    public float speed;
+    public float currentSpeed;
+    public float walkSpeed;
+    public float chaseSpeed;
     public float angularSpeed;
     public bool canRoam, canChase,isAlive, isRoaming, isChasing;
 
@@ -44,7 +47,7 @@ public class Witch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.speed = speed;
+        agent.speed = currentSpeed;
         agent.angularSpeed = angularSpeed;
 
         if (canRoam && !isRoaming)
@@ -66,6 +69,7 @@ public class Witch : MonoBehaviour
         {
             isRoaming = true;
             int locationIndex = -1;
+            currentSpeed = walkSpeed;
 
             // set animators
             animator.SetFloat("Blend", 0);
@@ -73,7 +77,7 @@ public class Witch : MonoBehaviour
             yield return new WaitForSeconds(delay); //wait
 
             // set animators
-            animator.SetFloat("Blend", 1);
+            animator.SetFloat("Blend", .5f);
 
             do
             {
@@ -104,10 +108,7 @@ public class Witch : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            Debug.Log("Hello");
-            canRoam = false;
-            isChasing = true;
-            player = other.gameObject;
+            ChasePlayer(other.gameObject);
         }
     }
 
@@ -117,7 +118,23 @@ public class Witch : MonoBehaviour
         
         if(Physics.Linecast(lincecastStart.position, linecastEnd.position, out hit))
         {
-            Debug.Log(hit.collider.gameObject.tag);
+            if(hit.collider.gameObject.tag == "Player")
+            {
+                if (!isChasing)
+                {
+                    ChasePlayer(hit.collider.gameObject);
+                }
+            }
         }
+    }
+
+    private void ChasePlayer(GameObject target)
+    {
+        Debug.Log("Chase Player");
+        canRoam = false;
+        isChasing = true;
+        player = target;
+        currentSpeed = chaseSpeed;
+        animator.SetFloat("Blend", 1f);
     }
 }
