@@ -156,7 +156,6 @@ public class PlayerController : MonoBehaviour
     {
         float distanceToBody = Vector3.Distance(playerBody.transform.position, playerSpirit.transform.position);
 
-        Debug.Log(distanceToBody.ToString());
         if (isInSpiritForm  && (distanceToBody <= spiritReturnDistance || spiritTimer >= spiritTime))
         {
             form = playerBody;
