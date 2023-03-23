@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class Witch : MonoBehaviour
     public float walkSpeed;
     public float chaseSpeed;
     public float angularSpeed;
-    public bool canRoam, canChase,isAlive, isRoaming, isChasing;
+    public bool canRoam, canChase,isAlive, isRoaming, isChasing, capturedPlayer;
 
 
     [Header("Roam")]
@@ -26,6 +27,9 @@ public class Witch : MonoBehaviour
     [Header("Linecast")]
     public Transform lincecastStart;
     public Transform linecastEnd;
+
+    [Header("Camera")]
+    public CinemachineVirtualCamera virtualCamera;
 
     [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
@@ -104,6 +108,21 @@ public class Witch : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            PlayerController playerController = FindObjectOfType<PlayerController>();
+            playerController.isCaptured = true;
+            //playerController.virtualMainCamera.gameObject.SetActive(false);
+            agent.isStopped = true;
+            virtualCamera.m_Priority = 12;
+            capturedPlayer = true;
+            isChasing = false;
+            CapturedPlayer();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
@@ -120,7 +139,7 @@ public class Witch : MonoBehaviour
         {
             if(hit.collider.gameObject.tag == "Player")
             {
-                if (!isChasing)
+                if (!isChasing && !capturedPlayer)
                 {
                     ChasePlayer(hit.collider.gameObject);
                 }
@@ -136,5 +155,12 @@ public class Witch : MonoBehaviour
         player = target;
         currentSpeed = chaseSpeed;
         animator.SetFloat("Blend", 1f);
+    }
+
+    private void CapturedPlayer()
+    {
+        animator.SetTrigger("Captured");
+        GameManager.playerCaptured = true;
+        FindObjectOfType<Main>().FadeOut();
     }
 }
