@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float spiritReturnDistance; //The distance from which the player can manually reenter their body
     public bool isInSpiritForm; //This should be false by default
     public float interactionRange;
+    public bool isCaptured = false;
 
     public GameObject playerBody;
     public GameObject playerSpirit; 
@@ -21,9 +22,9 @@ public class PlayerController : MonoBehaviour
     public GameObject heldObject;
     public Camera mainCamera;
     public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
+    [HideInInspector]public CinemachineVirtualCamera virtualMainCamera;
 
     private CinemachineBrain cinemachineBrain;
-    private CinemachineVirtualCamera virtualMainCamera;
     private CameraController bodyCameraController, spiritCameraController;
     private PostProcessingScript postProcessingScript;
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
@@ -49,6 +50,14 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (!isCaptured && GameManager.canPlayer.controlCamera)
+        {
+            Movement();
+        }
+    }
+
+    public void Movement()
     {
         #region Movement
         // Player Movement
@@ -91,7 +100,7 @@ public class PlayerController : MonoBehaviour
         if (!isInSpiritForm)
         {
             bodyTimer += Time.deltaTime;
-            if(bodyTimer < spiritCooldown && spiritFormCounter > 0)
+            if (bodyTimer < spiritCooldown && spiritFormCounter > 0)
             {
                 canEnterSpiritForm = false;
             }
