@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool isInSpiritForm; //This should be false by default
     public float interactionRange;
     public bool isCaptured = false;
+    public bool isHiding = false;
 
     public GameObject playerBody;
     public GameObject playerSpirit; 

@@ -139,7 +139,8 @@ public class Witch : MonoBehaviour
         {
             if(hit.collider.gameObject.tag == "Player")
             {
-                if (!isChasing && !capturedPlayer)
+                PlayerController player = hit.collider.gameObject.GetComponent<PlayerController>();
+                if (!isChasing && !capturedPlayer && !player.isHiding)
                 {
                     ChasePlayer(hit.collider.gameObject);
                 }
