@@ -82,6 +82,9 @@ public class PlayerController : MonoBehaviour
         rightMovement.Normalize();
         form.transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
 
+        float rotY= virtualMainCamera.transform.eulerAngles.y;
+        playerBody.transform.eulerAngles = new Vector3(playerBody.transform.eulerAngles.x, rotY, playerBody.transform.eulerAngles.z);
+
         //Spirit moves with body when not in spirit form
         if (!isInSpiritForm)
         {
