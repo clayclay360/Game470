@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject heldObject;
     public Camera mainCamera;
     public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
+    public Rig holdObjectRig;
     [HideInInspector]public CinemachineVirtualCamera virtualMainCamera;
 
     private CinemachineBrain cinemachineBrain;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
     private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
     private bool canEnterSpiritForm = true;
+    private bool isHoldingObject;
 
     public Vector2 rot = Vector2.zero;
     public Vector3 moveVal;
@@ -47,6 +50,8 @@ public class PlayerController : MonoBehaviour
         postProcessingScript = FindObjectOfType<PostProcessingScript>();
         bodyCameraController = virtualBodyCamera.GetComponent<CameraController>();
         spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>();
+        holdObjectRig.GetComponent<Rig>();
+        GameManager.canPlayer.interact = true;
     }
 
     // Update is called once per frame
@@ -137,31 +142,35 @@ public class PlayerController : MonoBehaviour
     {
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, interactionRange))
+        if (Physics.Raycast(ray, out hit, interactionRange))
         {
             GameObject hitObject = hit.collider.gameObject;
-            //Debug.Log(hitObject);
-            if(hitObject.name == "Mason" && heldObject != null)
+
+            if (hitObject.GetComponentInParent<Interact>() != null)
             {
-                heldObject.transform.SetParent(null);
+                hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                Debug.Log("Grab Item");
+            }
+            else if(heldObject != null)
+            {
+                Debug.Log("Drop Item");
+                heldObject.transform.parent = null;
+                heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 heldObject.GetComponentInChildren<Collider>().enabled = true;
                 heldObject = null;
-            }
-            else
-            {
-                if (hitObject.GetComponentInParent<Interact>() != null)
-                {
-                    hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
-                }
-                else if(hitObject.GetComponent<Interact>() != null)
-                {
-                    hitObject.GetComponent<Interact>().Interaction(gameObject);
-                }
             }
         }
         else
         {
             Debug.Log("Nothing hit");
+            if (heldObject != null)
+            {
+                Debug.Log("Drop Item");
+                heldObject.transform.parent = null;
+                heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                heldObject.GetComponentInChildren<Collider>().enabled = true;
+                heldObject = null;
+            }
         }
     }
 
