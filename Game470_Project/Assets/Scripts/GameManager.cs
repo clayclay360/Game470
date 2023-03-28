@@ -8,6 +8,7 @@ public struct CanPlayer
     public bool walk;
     public bool jump;
     public bool attack;
+    public bool interact;
 }
 
 public struct IsPlayer
