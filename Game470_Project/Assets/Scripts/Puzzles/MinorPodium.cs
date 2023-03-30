@@ -12,44 +12,15 @@ public class MinorPodium : Interact
     public override void Interaction(GameObject player)
     {
         PlayerController playerScript = player.GetComponent<PlayerController>();
-        switch (gameObject.name)
+        if (playerScript.heldObject != null && playerScript.heldObject.TryGetComponent<CollectableObject>(out CollectableObject CO))
         {
-            case ("Minor Podium 1"):
-                if(playerScript.heldObject.name == "Totem 1")
-                {
-                    playerScript.heldObject.transform.position = holdPoint.transform.position;
-                    playerScript.heldObject.transform.SetParent(gameObject.transform);
-                    hasTotem = true;
-                }
-                else
-                {
-                    Debug.Log("Wrong Item");
-                }
-                break;
-            case ("Minor Podium 2"):
-                if (playerScript.heldObject.name == "Totem 2")
-                {
-                    playerScript.heldObject.transform.position = holdPoint.transform.position;
-                    playerScript.heldObject.transform.SetParent(gameObject.transform);
-                    hasTotem = true;
-                }
-                else
-                {
-                    Debug.Log("Wrong Item");
-                }
-                break;
-            case ("Minor Podium 3"):
-                if (playerScript.heldObject.name == "Totem 3")
-                {
-                    playerScript.heldObject.transform.position = holdPoint.transform.position;
-                    playerScript.heldObject.transform.SetParent(gameObject.transform);
-                    hasTotem = true;
-                }
-                else
-                {
-                    Debug.Log("Wrong Item");
-                }
-                break;
+            playerScript.heldObject = null;
+            playerScript.holdObjectRig.weight = 0;
+            CO.transform.parent = holdPoint.transform;
+            CO.transform.localPosition =  Vector3.zero;
+            CO.transform.parent = holdPoint.transform;
+            CO.transform.eulerAngles = Vector3.zero;
+            hasTotem = true;
         }
     }
 }

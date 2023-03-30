@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
     public Rig holdObjectRig;
+    public Animator animator; // get animator
     [HideInInspector]public CinemachineVirtualCamera virtualMainCamera;
 
     private CinemachineBrain cinemachineBrain;
@@ -45,13 +46,14 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
         virtualMainCamera = virtualBodyCamera;
-        mainCamera.GetComponent<Camera>();
-        cinemachineBrain = FindObjectOfType<CinemachineBrain>();
-        postProcessingScript = FindObjectOfType<PostProcessingScript>();
-        bodyCameraController = virtualBodyCamera.GetComponent<CameraController>();
-        spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>();
-        holdObjectRig.GetComponent<Rig>();
-        GameManager.canPlayer.interact = true;
+        mainCamera.GetComponent<Camera>(); // get camera
+        cinemachineBrain = FindObjectOfType<CinemachineBrain>(); // get cinemachine brain
+        postProcessingScript = FindObjectOfType<PostProcessingScript>(); // get post procress script
+        bodyCameraController = virtualBodyCamera.GetComponent<CameraController>(); // git camera controller
+        spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>(); // get camera controller
+        holdObjectRig.GetComponent<Rig>(); // get rig
+        animator.GetComponent<Animator>();
+        GameManager.canPlayer.interact = true; // player can interact
     }
 
     // Update is called once per frame
@@ -71,6 +73,8 @@ public class PlayerController : MonoBehaviour
         Vector3 rightMovement = Vector3.zero;
         float moveHorizontal = moveVal.x;
         float moveVertical = moveVal.z;
+
+        animator.SetFloat("Walk", moveVertical);
 
         if (moveVertical != 0f)
         {
@@ -154,23 +158,26 @@ public class PlayerController : MonoBehaviour
             else if(heldObject != null)
             {
                 Debug.Log("Drop Item");
-                heldObject.transform.parent = null;
-                heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                heldObject.GetComponentInChildren<Collider>().enabled = true;
-                heldObject = null;
+                DropItem();
             }
         }
         else
         {
             Debug.Log("Nothing hit");
-            if (heldObject != null)
-            {
-                Debug.Log("Drop Item");
-                heldObject.transform.parent = null;
-                heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                heldObject.GetComponentInChildren<Collider>().enabled = true;
-                heldObject = null;
-            }
+            DropItem();
+        }
+    }
+
+    public void DropItem()
+    {
+        if (heldObject != null)
+        {
+            Debug.Log("Drop Item");
+            heldObject.transform.parent = null;
+            heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            heldObject.GetComponentInChildren<Collider>().enabled = true;
+            heldObject = null;
+            holdObjectRig.weight = 0;
         }
     }
 
