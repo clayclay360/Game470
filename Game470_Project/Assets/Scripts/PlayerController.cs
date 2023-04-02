@@ -5,9 +5,11 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Variables")]
     public float speed;
     public float spiritTime; //The ammount of time the player can spend in spirit form
     public float spiritCooldown; //The ammount of time the player has to wait to reenter their spirit form after leaving it
@@ -16,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float interactionRange;
     public bool isCaptured = false;
     public bool isHiding = false;
-
+    [Header("Components")]
     public GameObject playerBody;
     public GameObject playerSpirit; 
     public GameObject form;
@@ -26,7 +28,9 @@ public class PlayerController : MonoBehaviour
     public CinemachineVirtualCamera virtualBodyCamera, virtualSpiritCamera;
     public Rig holdObjectRig;
     public Animator animator; // get animator
+    public Text displayText;
     [HideInInspector]public CinemachineVirtualCamera virtualMainCamera;
+
 
     private CinemachineBrain cinemachineBrain;
     private CameraController bodyCameraController, spiritCameraController;
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
     private bool canEnterSpiritForm = true;
     private bool isHoldingObject;
+    private string interactionText;
 
     public Vector2 rot = Vector2.zero;
     public Vector3 moveVal;
@@ -53,6 +58,7 @@ public class PlayerController : MonoBehaviour
         spiritCameraController = virtualSpiritCamera.GetComponent<CameraController>(); // get camera controller
         holdObjectRig.GetComponent<Rig>(); // get rig
         animator.GetComponent<Animator>();
+        displayText.GetComponent<Text>();
         GameManager.canPlayer.interact = true; // player can interact
     }
 
@@ -62,6 +68,7 @@ public class PlayerController : MonoBehaviour
         if (!isCaptured && GameManager.canPlayer.controlCamera)
         {
             Movement();
+            DisplayInteraction();
         }
     }
 
@@ -140,6 +147,31 @@ public class PlayerController : MonoBehaviour
     public void OnSwitchForm(InputValue value)
     {
         SwitchForm();
+    }
+
+    public void DisplayInteraction()
+    {
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, interactionRange))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+
+            if (hitObject.GetComponentInParent<Interact>() != null)
+            {
+                displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
+            }
+            else
+            {
+                displayText.text = "";
+            }
+        }
+        else
+        {
+            displayText.text = "";
+        }
     }
 
     public void OnInteract(InputValue value)

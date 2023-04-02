@@ -15,4 +15,18 @@ public class Door : Interact
             GetComponent<Animator>().SetBool("isOpened",isOpened);
         }
     }
+
+    public override string InteractionText(GameObject heldObject)
+    {
+        if (locked)
+        {
+            return "Doors Locked";
+        }
+        else if (isOpened)
+        {
+            return "Close Door";
+        }
+
+        return "Open Door";
+    }
 }

@@ -12,15 +12,29 @@ public class MinorPodium : Interact
     public override void Interaction(GameObject player)
     {
         PlayerController playerScript = player.GetComponent<PlayerController>();
-        if (playerScript.heldObject != null && playerScript.heldObject.TryGetComponent<CollectableObject>(out CollectableObject CO))
+        if (playerScript.heldObject != null && playerScript.heldObject.TryGetComponent<Totem>(out Totem totem))
         {
             playerScript.heldObject = null;
             playerScript.holdObjectRig.weight = 0;
-            CO.transform.parent = holdPoint.transform;
-            CO.transform.localPosition =  Vector3.zero;
-            CO.transform.parent = holdPoint.transform;
-            CO.transform.eulerAngles = Vector3.zero;
+            totem.transform.parent = holdPoint.transform;
+            totem.transform.localPosition =  Vector3.zero;
+            totem.transform.parent = holdPoint.transform;
+            totem.transform.eulerAngles = Vector3.zero;
             hasTotem = true;
         }
+    }
+
+    public override string InteractionText(GameObject heldObject)
+    {
+        if(heldObject != null && heldObject.TryGetComponent<Totem>(out Totem totem))
+        {
+            return "Place Totem";
+        }
+        else if (!hasTotem)
+        {
+            return "Need Totem";
+        }
+
+        return "";
     }
 }

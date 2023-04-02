@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableObject : Interact
+public class Totem : Interact
 {
 
     public override void Interaction(GameObject player)
@@ -16,5 +16,10 @@ public class CollectableObject : Interact
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         playerScript.holdObjectRig.weight = 1;
         GameManager.canPlayer.interact = false;
+    }
+
+    public override string InteractionText(GameObject heldObject)
+    {
+        return "Grab Totem";
     }
 }
