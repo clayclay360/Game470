@@ -28,6 +28,7 @@ public class Book : Interact
 
     public override void Interaction(GameObject player)
     {
+        Debug.Log("Pulled");
         GetComponent<Animator>().SetTrigger("Pull");
         FindObjectOfType<StartingRoomPuzzle>().Puzzle(ID);
     }

@@ -77,6 +77,7 @@ public class StartingRoomPuzzle : MonoBehaviour
         if(index >= idTags.Length)
         {
             completed = true;
+            index = 0;
             Complete();
         }
     }

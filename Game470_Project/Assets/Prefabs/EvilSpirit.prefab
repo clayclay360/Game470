@@ -625,6 +625,4 @@ MonoBehaviour:
   canTrapPlayer: 1
   trapTime: 10
   trapCooldown: 5
-  player: {fileID: 0}
-  witch: {fileID: 0}
   delay: 2
