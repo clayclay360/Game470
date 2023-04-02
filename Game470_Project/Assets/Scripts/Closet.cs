@@ -34,4 +34,9 @@ public class Closet : Interact
             playerScript.isHiding = false;
         }
     }
+
+    public override string InteractionText(GameObject heldObject)
+    {
+        return "Hide";
+    }
 }
