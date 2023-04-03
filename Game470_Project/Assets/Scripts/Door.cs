@@ -14,19 +14,34 @@ public class Door : Interact
             isOpened = !isOpened;
             GetComponent<Animator>().SetBool("isOpened",isOpened);
         }
+        else if(player.GetComponent<PlayerController>().heldObject != null &&
+            player.GetComponent<PlayerController>().heldObject.TryGetComponent<Key>(out Key key))
+        {
+            if(key.Name == Name)
+            {
+                locked = false;
+                player.GetComponent<PlayerController>().DisposeItem();
+            }
+        }
     }
 
     public override string InteractionText(GameObject heldObject)
     {
-        if (locked)
+        if(heldObject != null && heldObject.TryGetComponent<Key>(out Key key))
         {
-            return "Doors Locked";
+            if(key.Name == Name)
+            {
+                return "Unlock Door";
+            }
+        }
+        else if (locked)
+        {
+            return Name + " Door Locked";
         }
         else if (isOpened)
         {
             return "Close Door";
         }
-
         return "Open Door";
     }
 }

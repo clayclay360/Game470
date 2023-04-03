@@ -8,6 +8,11 @@ public class Candle : Interact
     public GameObject pointLight;
     public bool on;
 
+    private void Update()
+    {
+            pointLight.SetActive(on);
+    }
+
     public override void Interaction(GameObject player)
     {
         if (!on && player.GetComponent<PlayerController>().heldObject != null && 

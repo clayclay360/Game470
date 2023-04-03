@@ -213,6 +213,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void DisposeItem()
+    {
+        if(heldObject != null)
+        {
+            Debug.Log("Dispose Item");
+            Destroy(heldObject);
+            heldObject = null;
+            holdObjectRig.weight = 0;
+        }
+    }
+
     public void SwitchForm()
     {
         float distanceToBody = Vector3.Distance(playerBody.transform.position, playerSpirit.transform.position);
