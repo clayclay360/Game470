@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Totem : Interact
+public class CollectableObject : Interact
 {
 
     public override void Interaction(GameObject player)
@@ -20,6 +20,6 @@ public class Totem : Interact
 
     public override string InteractionText(GameObject heldObject)
     {
-        return "Grab Totem";
+        return "Grab " + Name;
     }
 }

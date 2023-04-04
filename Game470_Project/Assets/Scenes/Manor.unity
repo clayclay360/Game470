@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1523263150}
   on: 0
 --- !u!1001 &75375989
@@ -759,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1578609891}
   on: 0
 --- !u!1 &83797064
@@ -9660,6 +9660,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8048652140200725759, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
+      propertyPath: Name
+      value: Closet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
 --- !u!4 &148181105 stripped
@@ -9908,7 +9912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1833324890}
   on: 0
 --- !u!1001 &194209047
@@ -13527,7 +13531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 283139545}
   on: 0
 --- !u!1 &266192481 stripped
@@ -14851,7 +14855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 2043098872}
   on: 0
 --- !u!1 &333404063 stripped
@@ -15421,7 +15425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 554721074}
   on: 0
 --- !u!1001 &356268094
@@ -17789,7 +17793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 208928582}
   on: 0
 --- !u!1 &434747808
@@ -18402,7 +18406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 398611711}
   on: 0
 --- !u!1 &470147959
@@ -19260,7 +19264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1176350803}
   on: 0
 --- !u!1 &534469140 stripped
@@ -19676,7 +19680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e629446a9c6e95b40ba10a16abe92406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Cat Totem
 --- !u!1 &548562694 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e2c4b5e5d72f2604c9e4a571177554ff, type: 3}
@@ -20399,7 +20403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1032094359}
   on: 0
 --- !u!1001 &582048086
@@ -21616,7 +21620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 648780960}
   on: 0
 --- !u!4 &668564957 stripped
@@ -22153,7 +22157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1884943660}
   on: 0
 --- !u!1001 &718958420
@@ -23410,7 +23414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1315892960}
   on: 0
 --- !u!1 &752784708
@@ -25839,7 +25843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1639554671}
   on: 0
 --- !u!1001 &901798189
@@ -26206,6 +26210,10 @@ PrefabInstance:
     - target: {fileID: 6742155859455356874, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8048652140200725759, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
+      propertyPath: Name
+      value: Closet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
@@ -29737,7 +29745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 935246464}
   on: 0
 --- !u!43 &1063957307
@@ -30522,7 +30530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 736246738}
   on: 0
 --- !u!1001 &1130733370
@@ -30682,7 +30690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 273027964}
   on: 0
 --- !u!1 &1147362404 stripped
@@ -30987,7 +30995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e629446a9c6e95b40ba10a16abe92406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Snake Totem
 --- !u!1 &1170741942
 GameObject:
   m_ObjectHideFlags: 0
@@ -31032,7 +31040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1679136311}
   on: 0
 --- !u!1001 &1171965080
@@ -33400,7 +33408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1304210756}
   on: 0
 --- !u!1 &1300997566
@@ -37510,7 +37518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 122966358}
   on: 0
 --- !u!1001 &1341960452
@@ -41060,7 +41068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe448c717a4a873459900d7f1ac2a522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Book
   ID: 
 --- !u!95 &1438810487
 Animator:
@@ -41448,6 +41456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1454619683}
+  - component: {fileID: 1454619685}
   - component: {fileID: 1454619684}
   m_Layer: 0
   m_Name: Book  4
@@ -41490,6 +41499,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1454619685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454619682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe448c717a4a873459900d7f1ac2a522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Book
+  ID: 
 --- !u!1 &1458904033 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e2c4b5e5d72f2604c9e4a571177554ff, type: 3}
@@ -43139,7 +43162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1653086955}
   on: 0
 --- !u!1001 &1521348108
@@ -44752,7 +44775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed22754932d1eb64ca83765c82c2f69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Your Candle
 --- !u!1 &1588855259 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e2c4b5e5d72f2604c9e4a571177554ff, type: 3}
@@ -45162,7 +45185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 343277588}
   on: 0
 --- !u!1 &1613143276
@@ -52737,7 +52760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe448c717a4a873459900d7f1ac2a522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Book
   ID: 
 --- !u!95 &1645065789
 Animator:
@@ -53947,7 +53970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 418117559}
   on: 0
 --- !u!1001 &1691524670
@@ -54420,7 +54443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 1774539347}
   on: 0
 --- !u!1 &1747404972 stripped
@@ -58281,6 +58304,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8048652140200725759, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
+      propertyPath: Name
+      value: Closet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cea13f5b861ed944bd7d707ef4ecad5, type: 3}
 --- !u!850595691 &1917461461
@@ -58842,7 +58869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68fa11cf5caa1ed4aa52635a38457c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Candle
   pointLight: {fileID: 449572693}
   on: 0
 --- !u!1001 &1942409579
@@ -59965,7 +59992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe448c717a4a873459900d7f1ac2a522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Book
   ID: 
 --- !u!95 &2005852960
 Animator:
@@ -62245,7 +62272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 980636033805410433, guid: f51d240b3847153488b0868773b3f1ef, type: 3}
       propertyPath: Name
-      value: Poduim
+      value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 980636033805410439, guid: f51d240b3847153488b0868773b3f1ef, type: 3}
       propertyPath: m_Name
@@ -63049,19 +63076,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5264435949491869910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6602867995323380892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e629446a9c6e95b40ba10a16abe92406, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: 
 --- !u!4 &5809702575111097793
 Transform:
   m_ObjectHideFlags: 3
@@ -63085,7 +63099,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7311789994865065395}
-  - component: {fileID: 5264435949491869910}
+  - component: {fileID: 6602867995323380893}
   - component: {fileID: 236264294}
   m_Layer: 0
   m_Name: Bat Totem
@@ -63094,6 +63108,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6602867995323380893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602867995323380892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e629446a9c6e95b40ba10a16abe92406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Bat Totem
 --- !u!114 &6883605781290635267
 MonoBehaviour:
   m_ObjectHideFlags: 3

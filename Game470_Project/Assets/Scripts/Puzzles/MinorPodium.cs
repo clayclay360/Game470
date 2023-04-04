@@ -12,7 +12,7 @@ public class MinorPodium : Interact
     public override void Interaction(GameObject player)
     {
         PlayerController playerScript = player.GetComponent<PlayerController>();
-        if (playerScript.heldObject != null && playerScript.heldObject.TryGetComponent<Totem>(out Totem totem))
+        if (playerScript.heldObject != null && playerScript.heldObject.TryGetComponent<CollectableObject>(out CollectableObject totem))
         {
             playerScript.heldObject = null;
             playerScript.holdObjectRig.weight = 0;
@@ -26,9 +26,16 @@ public class MinorPodium : Interact
 
     public override string InteractionText(GameObject heldObject)
     {
-        if(heldObject != null && heldObject.TryGetComponent<Totem>(out Totem totem))
+        if(heldObject != null && heldObject.TryGetComponent<CollectableObject>(out CollectableObject totem))
         {
-            return "Place Totem";
+            if(totem.Name == "Bat Totem" || totem.Name == "Cat Totem" || totem.Name == "Snake Totem")
+            {
+                return "Place Totem";
+            }
+            else
+            {
+                return "Need Totem";
+            }
         }
         else if (!hasTotem)
         {
