@@ -17,17 +17,16 @@ public class PressurePlate : MonoBehaviour
         animator.SetBool("Pushed", isPushed);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Witch")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Witch")
         {
             isPushed = true;
         }
     }
-
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Witch")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Witch")
         {
             isPushed = false;
         }

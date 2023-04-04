@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwitchForm(InputValue value)
     {
-        SwitchForm();
+        //SwitchForm();
     }
 
     public void DisplayInteraction()
