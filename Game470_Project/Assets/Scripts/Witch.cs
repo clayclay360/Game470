@@ -13,13 +13,15 @@ public class Witch : MonoBehaviour
     public float walkSpeed;
     public float chaseSpeed;
     public float angularSpeed;
-    public bool canRoam, canChase,isAlive, isRoaming, isChasing, capturedPlayer;
+    public bool canRoam, canChase, detectedNoise, isAlive, isRoaming, isChasing, capturedPlayer, followingNoise;
 
 
     [Header("Roam")]
     public float delay;
     public float destinationOffset;
     public Transform[] locations;
+    [HideInInspector]
+    public Vector3 noiseLocation;
 
     [Header("Animator")]
     public Animator animator;
@@ -30,6 +32,9 @@ public class Witch : MonoBehaviour
 
     [Header("Camera")]
     public CinemachineVirtualCamera virtualCamera;
+
+    [Header("Collider")]
+    public Collider areaCollider;
 
     [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
@@ -65,11 +70,12 @@ public class Witch : MonoBehaviour
         }
 
         Linecast();
+        areaCollider.enabled = !followingNoise; // if the witch is following the noice, disable collider else enable
     }
 
     IEnumerator Roam()
     {
-        while(isAlive && canRoam)
+        while (isAlive && canRoam)
         {
             isRoaming = true;
             int locationIndex = -1;
@@ -83,14 +89,24 @@ public class Witch : MonoBehaviour
             // set animators
             animator.SetFloat("Blend", .5f);
 
-            do
+            // if the witch is not following the noise, roamm around the manson
+            if (!detectedNoise)
             {
-                locationIndex = Random.Range(0, locations.Length); //generate a random number not previous to the last
-            }
-            while (lastLocationIndex == locationIndex);
-            lastLocationIndex = locationIndex;
+                do
+                {
+                    locationIndex = Random.Range(0, locations.Length); //generate a random number not previous to the last
+                }
+                while (lastLocationIndex == locationIndex);
+                lastLocationIndex = locationIndex;
 
-            agent.SetDestination(locations[locationIndex].position);
+                agent.SetDestination(locations[locationIndex].position);
+            }
+            else
+            {
+                agent.SetDestination(noiseLocation);
+                followingNoise = true;
+                detectedNoise = false;
+            }
 
             // set the difference
             Vector2 difference = new Vector2(1,1);
@@ -101,11 +117,23 @@ public class Witch : MonoBehaviour
             {
                 yield return null;
 
-                // get the difference between the players position and the destination
+                // get the difference between the witch position and the destination
                 difference = new Vector2(Mathf.Abs(transform.position.x - agent.destination.x),
                 Mathf.Abs(transform.position.z - agent.destination.z));
             }
+
+            // when the witch has completed following the noise then continue to roam
+            if (followingNoise)
+            {
+                followingNoise = false;
+            }
         }
+    }
+
+    public void FollowNoise(Vector3 location)
+    {
+        detectedNoise = true;
+        noiseLocation = location;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -143,6 +171,7 @@ public class Witch : MonoBehaviour
                 if (!isChasing && !capturedPlayer && !player.isHiding)
                 {
                     ChasePlayer(hit.collider.gameObject);
+                    Debug.Log(hit.collider.gameObject.name);
                 }
             }
         }
