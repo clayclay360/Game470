@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public float interactionRange;
     public bool isCaptured = false;
     public bool isHiding = false;
+    public bool isReading = false;
     [Header("Components")]
     public GameObject playerBody;
     public GameObject playerSpirit; 
@@ -30,7 +31,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator; // get animator
     public Text displayText;
     [HideInInspector]public CinemachineVirtualCamera virtualMainCamera;
-
+    [Header("UI")]
+    public Image noteImage;
 
     private CinemachineBrain cinemachineBrain;
     private CameraController bodyCameraController, spiritCameraController;
@@ -59,16 +61,33 @@ public class PlayerController : MonoBehaviour
         holdObjectRig.GetComponent<Rig>(); // get rig
         animator.GetComponent<Animator>();
         displayText.GetComponent<Text>();
+        noteImage.GetComponent<Image>();
         GameManager.canPlayer.interact = true; // player can interact
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isCaptured && GameManager.canPlayer.controlCamera)
+        if (!isCaptured && GameManager.canPlayer.controlCamera && !isReading)
         {
             Movement();
             DisplayInteraction();
+        }
+        else
+        {
+            Reading();
+        }
+    }
+
+    public void Reading()
+    {
+        if (isReading)
+        {
+            if(Input.GetButtonDown("Fire2"))
+            {
+                isReading = false;
+                noteImage.enabled = false;
+            }
         }
     }
 
