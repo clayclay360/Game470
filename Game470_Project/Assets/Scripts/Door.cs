@@ -7,12 +7,23 @@ public class Door : Interact
     public bool locked;
     public bool isOpened;
 
+    [Header("Audio")]
+    private AudioSource audioSource;
+    public AudioClip creakingDoor, unlockingDoor;
+
+    public void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public override void Interaction(GameObject player)
     {
         if (!locked)
         {
             isOpened = !isOpened;
             GetComponent<Animator>().SetBool("isOpened",isOpened);
+            audioSource.clip = creakingDoor;
+            audioSource.Play();
         }
         else if(player.GetComponent<PlayerController>().heldObject != null &&
             player.GetComponent<PlayerController>().heldObject.TryGetComponent<Key>(out Key key))
@@ -21,6 +32,8 @@ public class Door : Interact
             {
                 locked = false;
                 player.GetComponent<PlayerController>().DisposeItem();
+                audioSource.clip = unlockingDoor;
+                audioSource.Play();
             }
         }
     }

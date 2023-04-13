@@ -36,6 +36,9 @@ public class Witch : MonoBehaviour
     [Header("Collider")]
     public Collider areaCollider;
 
+    [Header ("Audio")]
+    private AudioSource audioSource;
+
     [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
 
@@ -49,7 +52,9 @@ public class Witch : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         animator.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
+        StartCoroutine(PlayLaugh());
         StartCoroutine(Roam());
     }
 
@@ -71,6 +76,18 @@ public class Witch : MonoBehaviour
 
         Linecast();
         areaCollider.enabled = !followingNoise; // if the witch is following the noice, disable collider else enable
+    }
+    
+    public void ResetVariables()
+    {
+        followingNoise = false;
+        capturedPlayer = false;
+        isChasing = false;
+        isRoaming = true;
+        canRoam = true;
+        animator.SetTrigger("Reset");
+        agent.enabled = true;
+        StartCoroutine(Roam());
     }
 
     IEnumerator Roam()
@@ -177,6 +194,16 @@ public class Witch : MonoBehaviour
         }
     }
 
+    IEnumerator PlayLaugh()
+    {
+        while (true)
+        {
+            float time = Random.Range(5, 25);
+
+            yield return new WaitForSeconds(time);
+            audioSource.Play();
+        }
+    }
     private void ChasePlayer(GameObject target)
     {
         Debug.Log("Chase Player");
@@ -191,6 +218,7 @@ public class Witch : MonoBehaviour
     {
         animator.SetTrigger("Captured");
         GameManager.playerCaptured = true;
+        agent.enabled = false;
         FindObjectOfType<Main>().FadeOut();
     }
 }

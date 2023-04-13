@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public bool isCaptured = false;
     public bool isHiding = false;
     public bool isReading = false;
+    public bool isMoving = false;
     [Header("Components")]
     public GameObject playerBody;
     public GameObject playerSpirit; 
@@ -37,10 +38,12 @@ public class PlayerController : MonoBehaviour
     private CinemachineBrain cinemachineBrain;
     private CameraController bodyCameraController, spiritCameraController;
     private PostProcessingScript postProcessingScript;
+    private AudioSource audioSource;
     private float spiritTimer = 0; //The ammount of time the player has spent in spirit form
     private float bodyTimer = 0; //The ammount of time the player has spent in their body
     private int spiritFormCounter = 0; //The number of times the player has gone into spirit form
     private bool canEnterSpiritForm = true;
+    private bool isPlayingWalkAudio;
     private bool isHoldingObject;
     private string interactionText;
 
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         form = playerBody;
         virtualMainCamera = virtualBodyCamera;
+        audioSource = GetComponent<AudioSource>();
         mainCamera.GetComponent<Camera>(); // get camera
         cinemachineBrain = FindObjectOfType<CinemachineBrain>(); // get cinemachine brain
         postProcessingScript = FindObjectOfType<PostProcessingScript>(); // get post procress script
@@ -114,6 +118,23 @@ public class PlayerController : MonoBehaviour
         {
             rightMovement = new Vector3(virtualMainCamera.transform.right.x, 0, virtualMainCamera.transform.right.z);
         }
+
+        if(moveHorizontal != 0f || moveVertical != 0)
+        {
+            if (!isPlayingWalkAudio)
+            {
+                isMoving = true;
+                isPlayingWalkAudio = true;
+                StartCoroutine(PlayWalkAudio());
+            }
+        }
+        else
+        {
+            isMoving = false;
+            isPlayingWalkAudio = false;
+            audioSource.Stop();
+        }
+
         rightMovement.Normalize();
         form.transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
 
@@ -154,6 +175,15 @@ public class PlayerController : MonoBehaviour
         {
             spiritCameraController.moveHorizontal = bodyCameraController.moveHorizontal;
             spiritCameraController.moveVertical = bodyCameraController.moveVertical;
+        }
+    }
+
+    IEnumerator PlayWalkAudio()
+    {
+        while (isPlayingWalkAudio)
+        {
+            audioSource.Play();
+            yield return new WaitForSeconds(audioSource.clip.length);
         }
     }
 

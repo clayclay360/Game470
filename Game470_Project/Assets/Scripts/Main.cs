@@ -28,7 +28,16 @@ public class Main : MonoBehaviour
     IEnumerator PlayDirector(float time)
     {
         yield return new WaitForSeconds(time);
+        RestartGame();
         FindObjectOfType<Witch>().virtualCamera.m_Priority = 9;
         wakeUpDirector.Play();
+    }
+
+    public void RestartGame()
+    {
+        GameManager.playerCaptured = false; // player is not captured
+        FindObjectOfType<PlayerController>().isCaptured = false; // player is free
+        FindObjectOfType<CameraController>().ResetValue(); // reset camera
+        FindObjectOfType<Witch>().ResetVariables();
     }
 }
