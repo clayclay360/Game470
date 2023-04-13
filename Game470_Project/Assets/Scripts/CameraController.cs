@@ -49,4 +49,10 @@ public class CameraController : MonoBehaviour
         rot.x += input.x;
         rot.y -= input.y;
     }
+
+    public void ResetValue()
+    {
+        moveHorizontal = 0;
+        moveVertical = 0;
+    }
 }

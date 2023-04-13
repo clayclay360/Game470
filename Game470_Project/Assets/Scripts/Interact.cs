@@ -6,6 +6,13 @@ public abstract class Interact : MonoBehaviour
 {
     public string Name;
     public bool canMakeNoiseWhenDropped;
+    public AudioClip droppingNoise;
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public abstract void Interaction(GameObject player);
 
@@ -18,6 +25,8 @@ public abstract class Interact : MonoBehaviour
             if (canMakeNoiseWhenDropped)
             {
                 FindObjectOfType<Witch>().FollowNoise(transform.position);
+                audioSource.clip = droppingNoise;
+                audioSource.Play();
                 Debug.Log("Make Some Noise!!!");
             }
         }
