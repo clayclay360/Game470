@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public bool isHiding = false;
     public bool isReading = false;
     public bool isMoving = false;
+    public bool hasCandle = false;
     [Header("Components")]
     public GameObject playerBody;
     public GameObject playerSpirit; 
@@ -208,9 +209,14 @@ public class PlayerController : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
 
+            Debug.Log(hitObject);
             if (hitObject.GetComponentInParent<Interact>() != null)
             {
                 displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
+            }
+            else if (hitObject.GetComponentInParent<Witch>() != null && heldObject.GetComponent<CollectableObject>().Name == "Potion")
+            {
+                displayText.text = "Throw Potion";
             }
             else
             {
@@ -235,6 +241,11 @@ public class PlayerController : MonoBehaviour
             {
                 hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
                 Debug.Log("Grab Item");
+            }
+            else if (hitObject.GetComponentInParent<Witch>() != null && heldObject.GetComponent<CollectableObject>().Name == "Potion")
+            {
+                hitObject.GetComponentInParent<Witch>().isAlive = false;
+                Debug.LogWarning("Potion Thrown");
             }
             else if(heldObject != null)
             {
