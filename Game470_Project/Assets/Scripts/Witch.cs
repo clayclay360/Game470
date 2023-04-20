@@ -43,6 +43,7 @@ public class Witch : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
 
     private GameObject player;
+    private Vector3 startPos;
 
     private int lastLocationIndex;
 
@@ -53,6 +54,8 @@ public class Witch : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+
+        startPos = transform.position;
 
         StartCoroutine(PlayLaugh());
         StartCoroutine(Roam());
@@ -80,6 +83,8 @@ public class Witch : MonoBehaviour
     
     public void ResetVariables()
     {
+        transform.position = startPos;
+        detectedNoise = false;
         followingNoise = false;
         capturedPlayer = false;
         isChasing = false;
@@ -120,6 +125,7 @@ public class Witch : MonoBehaviour
             }
             else
             {
+                Debug.Log("FOLLOW NOISE");
                 agent.SetDestination(noiseLocation);
                 followingNoise = true;
                 detectedNoise = false;

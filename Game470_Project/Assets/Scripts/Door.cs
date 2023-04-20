@@ -46,6 +46,10 @@ public class Door : Interact
             {
                 return "Unlock Door";
             }
+            else if (locked)
+            {
+                return "Door Locked";
+            }
         }
         else if (locked)
         {
