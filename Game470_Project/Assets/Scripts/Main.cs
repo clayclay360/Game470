@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 {
     public Animator backgroundAnimator;
     public PlayableDirector wakeUpDirector;
+    public PlayableDirector endDirector;
 
     private void Start()
     {
@@ -39,5 +40,10 @@ public class Main : MonoBehaviour
         FindObjectOfType<PlayerController>().isCaptured = false; // player is free
         FindObjectOfType<CameraController>().ResetValue(); // reset camera
         FindObjectOfType<Witch>().ResetVariables();
+    }
+
+    public void WitchDefeated()
+    {
+        endDirector.Play();
     }
 }

@@ -23,6 +23,7 @@ public class GameManager
     public const bool debug = false;
     public static bool isGamePaused = false;
     public static bool playerCaptured;
+    public static bool gameOver = false;
 
     //Player
     public static CanPlayer canPlayer = new CanPlayer();

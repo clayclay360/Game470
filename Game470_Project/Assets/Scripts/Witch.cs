@@ -64,21 +64,30 @@ public class Witch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.speed = currentSpeed;
-        agent.angularSpeed = angularSpeed;
-
-        if (canRoam && !isRoaming)
+        if (isAlive)
         {
-            StartCoroutine(Roam());
+            agent.speed = currentSpeed;
+            agent.angularSpeed = angularSpeed;
+
+            if (canRoam && !isRoaming)
+            {
+                StartCoroutine(Roam());
+            }
+
+            if (isChasing)
+            {
+                agent.SetDestination(player.transform.position);
+            }
+
+            Linecast();
+            areaCollider.enabled = !followingNoise; // if the witch is following the noice, disable collider else enable
         }
 
-        if (isChasing)
+        if(!isAlive && !GameManager.gameOver)
         {
-            agent.SetDestination(player.transform.position);
+            GameManager.gameOver = true;
+            FindObjectOfType<Main>().WitchDefeated();
         }
-
-        Linecast();
-        areaCollider.enabled = !followingNoise; // if the witch is following the noice, disable collider else enable
     }
     
     public void ResetVariables()
@@ -125,7 +134,6 @@ public class Witch : MonoBehaviour
             }
             else
             {
-                Debug.Log("FOLLOW NOISE");
                 agent.SetDestination(noiseLocation);
                 followingNoise = true;
                 detectedNoise = false;
