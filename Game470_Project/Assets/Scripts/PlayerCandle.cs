@@ -12,6 +12,7 @@ public class PlayerCandle : Interact
         transform.position = playerScript.holdPoint.transform.position;
         transform.localEulerAngles = new Vector3(0, 0, 0);
         playerScript.heldObject = gameObject;
+        playerScript.hasCandle = true;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         playerScript.holdObjectRig.weight = 1;
         GameManager.canPlayer.interact = false;

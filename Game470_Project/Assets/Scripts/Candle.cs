@@ -16,7 +16,7 @@ public class Candle : Interact
     public override void Interaction(GameObject player)
     {
         if (!on && player.GetComponent<PlayerController>().heldObject != null && 
-            player.GetComponent<PlayerController>().heldObject.TryGetComponent<PlayerCandle>(out PlayerCandle playerCandle))
+            player.GetComponent<PlayerController>().hasCandle)
         {
             pointLight.SetActive(true);
             on = true;
@@ -25,7 +25,7 @@ public class Candle : Interact
 
     public override string InteractionText(GameObject heldObject)
     {
-        if (!on && heldObject != null && heldObject.TryGetComponent<PlayerCandle>(out PlayerCandle playerCandle))
+        if (!on && heldObject != null && heldObject.transform.parent.parent.GetComponentInParent<PlayerController>().hasCandle)
         {
             return "Light Candle";
         }
