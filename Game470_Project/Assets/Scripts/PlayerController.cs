@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     public bool isHiding = false;
     public bool isReading = false;
     public bool isMoving = false;
-    public bool hasCandle = false;
     [Header("Components")]
     public GameObject playerBody;
     public GameObject playerSpirit; 
@@ -210,7 +209,15 @@ public class PlayerController : MonoBehaviour
             GameObject hitObject = hit.collider.gameObject;
 
             Debug.Log(hitObject);
-            if (hitObject.GetComponentInParent<Interact>() != null)
+            if (hitObject.GetComponentInParent<CollectableObject>() != null && heldObject == null)
+            {
+                displayText.text = hitObject.GetComponentInParent<CollectableObject>().InteractionText(heldObject);
+            }
+            else if(hitObject.GetComponentInParent<CollectableObject>() != null && heldObject != null)
+            {
+                displayText.text = "Drop item in hand\n(Will alert Witch)";
+            }
+            else if(hitObject.GetComponentInParent<Interact>() != null)
             {
                 displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
             }
@@ -237,10 +244,15 @@ public class PlayerController : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            if (hitObject.GetComponentInParent<Interact>() != null)
+            if (hitObject.GetComponentInParent<Interact>() != null && heldObject == null)
             {
                 hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
                 Debug.Log("Grab Item");
+            }
+            else if (hitObject.GetComponentInParent<Interact>() != null && hitObject.GetComponentInParent<CollectableObject>() == null)
+            {
+                hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
+                Debug.Log("Interact");
             }
             else if (hitObject.GetComponentInParent<Witch>() != null && heldObject.GetComponent<CollectableObject>().Name == "Potion")
             {
