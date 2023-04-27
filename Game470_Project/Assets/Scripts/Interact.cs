@@ -24,6 +24,7 @@ public abstract class Interact : MonoBehaviour
         {
             if (canMakeNoiseWhenDropped)
             {
+                FindObjectOfType<Main>().witch.SetActive(true);
                 FindObjectOfType<Witch>().FollowNoise(transform.position);
                 audioSource.clip = droppingNoise;
                 audioSource.Play();

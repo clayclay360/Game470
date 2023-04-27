@@ -6,9 +6,13 @@ using UnityEngine.Playables;
 
 public class Main : MonoBehaviour
 {
+    [Header("CutScenes")]
     public Animator backgroundAnimator;
     public PlayableDirector wakeUpDirector;
     public PlayableDirector endDirector;
+
+    [Header("Witch")]
+    public GameObject witch;
 
     private void Start()
     {
@@ -29,8 +33,8 @@ public class Main : MonoBehaviour
     IEnumerator PlayDirector(float time)
     {
         yield return new WaitForSeconds(time);
-        RestartGame();
         FindObjectOfType<Witch>().virtualCamera.m_Priority = 9;
+        RestartGame();
         wakeUpDirector.Play();
     }
 
@@ -40,10 +44,12 @@ public class Main : MonoBehaviour
         FindObjectOfType<PlayerController>().isCaptured = false; // player is free
         FindObjectOfType<CameraController>().ResetValue(); // reset camera
         FindObjectOfType<Witch>().ResetVariables();
+        FindObjectOfType<Witch>().gameObject.SetActive(false);
     }
 
     public void WitchDefeated()
     {
         endDirector.Play();
+        FindObjectOfType<Witch>().gameObject.SetActive(false);
     }
 }

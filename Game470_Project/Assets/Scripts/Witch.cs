@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
@@ -13,7 +14,8 @@ public class Witch : MonoBehaviour
     public float walkSpeed;
     public float chaseSpeed;
     public float angularSpeed;
-    public bool canRoam, canChase, detectedNoise, isAlive, isRoaming, isChasing, capturedPlayer, followingNoise;
+    public int disappearCoolDown;
+    public bool canRoam, canChase, detectedNoise, isAlive, isRoaming, isChasing, capturedPlayer, followingNoise, ableToDisappear, readyToDisappear;
 
 
     [Header("Roam")]
@@ -64,6 +66,8 @@ public class Witch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position));
+
         if (isAlive)
         {
             agent.speed = currentSpeed;
@@ -79,7 +83,13 @@ public class Witch : MonoBehaviour
                 agent.SetDestination(player.transform.position);
             }
 
+            if (ableToDisappear)
+            {
+                Disappear();
+            }
+
             Linecast();
+            
             areaCollider.enabled = !followingNoise; // if the witch is following the noice, disable collider else enable
         }
 
@@ -157,14 +167,32 @@ public class Witch : MonoBehaviour
             if (followingNoise)
             {
                 followingNoise = false;
+                StartDisappearCoolDown();
             }
         }
+    }
+
+    public async void StartDisappearCoolDown()
+    {
+        Debug.Log("CoolDownStarted");
+        await Task.Delay(disappearCoolDown);
+        ableToDisappear = true;
     }
 
     public void FollowNoise(Vector3 location)
     {
         detectedNoise = true;
         noiseLocation = location;
+    }
+
+    public void Disappear()
+    {
+        if(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position) > 4.5f)
+        {
+            ableToDisappear = false;
+            isRoaming = false;
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

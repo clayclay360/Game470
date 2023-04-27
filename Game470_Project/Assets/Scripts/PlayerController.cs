@@ -209,14 +209,16 @@ public class PlayerController : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            Debug.Log(hitObject);
             if (hitObject.GetComponentInParent<Interact>() != null)
             {
                 displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
             }
-            else if (hitObject.GetComponentInParent<Witch>() != null && heldObject.GetComponent<CollectableObject>().Name == "Potion")
+            else if (hitObject.GetComponentInParent<Witch>() != null && heldObject != null)
             {
-                displayText.text = "Throw Potion";
+                if(heldObject.GetComponent<CollectableObject>().Name == "Potion")
+                {
+                    displayText.text = "Throw Potion";
+                }
             }
             else
             {
