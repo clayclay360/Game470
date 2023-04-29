@@ -66,7 +66,7 @@ public class Witch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position));
+        //Debug.Log(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position));
 
         if (isAlive)
         {
@@ -187,6 +187,7 @@ public class Witch : MonoBehaviour
 
     public void Disappear()
     {
+        Debug.Log("Able To Disappear");
         if(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position) > 4.5f)
         {
             ableToDisappear = false;

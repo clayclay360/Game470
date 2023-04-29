@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -215,9 +216,12 @@ public class PlayerController : MonoBehaviour
             }
             else if (hitObject.GetComponentInParent<Witch>() != null && heldObject != null)
             {
-                if(heldObject.GetComponent<CollectableObject>().Name == "Potion")
+                if(heldObject.TryGetComponent<CollectableObject>(out CollectableObject collectableObject))
                 {
-                    displayText.text = "Throw Potion";
+                    if (collectableObject.Name == "Potion")
+                    {
+                        displayText.text = "Throw Potion";
+                    }
                 }
             }
             else
