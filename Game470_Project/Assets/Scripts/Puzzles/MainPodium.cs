@@ -23,7 +23,7 @@ public class MainPodium : MonoBehaviour
         if(podium1.GetComponent<MinorPodium>().hasTotem && podium2.GetComponent<MinorPodium>().hasTotem && podium3.GetComponent<MinorPodium>().hasTotem)
         {
             spiritOrb.SetActive(false);
-            spirit.SetActive(true);
+            //spirit.SetActive(true);
         }
     }
 }
