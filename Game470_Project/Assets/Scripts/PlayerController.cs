@@ -103,44 +103,47 @@ public class PlayerController : MonoBehaviour
         // Player Movement
         Vector3 forwardMovement = Vector3.zero;
         Vector3 rightMovement = Vector3.zero;
-        float moveHorizontal = moveVal.x;
-        float moveVertical = moveVal.z;
 
-        animator.SetFloat("Walk", moveVertical);
-
-        if (moveVertical != 0f)
+        if (!isHiding)
         {
-            forwardMovement = new Vector3(virtualMainCamera.transform.forward.x, 0, virtualMainCamera.transform.forward.z);
-        }
-        forwardMovement.Normalize();
-        form.transform.position += forwardMovement * Time.deltaTime * speed * moveVertical;
+            float moveHorizontal = moveVal.x;
+            float moveVertical = moveVal.z;
 
-        //move left and right
-        if (moveHorizontal != 0f)
-        {
-            rightMovement = new Vector3(virtualMainCamera.transform.right.x, 0, virtualMainCamera.transform.right.z);
-        }
+            animator.SetFloat("Walk", moveVertical);
 
-        if(moveHorizontal != 0f || moveVertical != 0)
-        {
-            if (!isPlayingWalkAudio)
+            if (moveVertical != 0f)
             {
-                isMoving = true;
-                isPlayingWalkAudio = true;
-                StartCoroutine(PlayWalkAudio());
+                forwardMovement = new Vector3(virtualMainCamera.transform.forward.x, 0, virtualMainCamera.transform.forward.z);
             }
-        }
-        else
-        {
-            isMoving = false;
-            isPlayingWalkAudio = false;
-            audioSource.Stop();
-        }
+            forwardMovement.Normalize();
+            form.transform.position += forwardMovement * Time.deltaTime * speed * moveVertical;
 
-        rightMovement.Normalize();
-        form.transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
+            //move left and right
+            if (moveHorizontal != 0f)
+            {
+                rightMovement = new Vector3(virtualMainCamera.transform.right.x, 0, virtualMainCamera.transform.right.z);
+            }
 
-        float rotY= virtualMainCamera.transform.eulerAngles.y;
+            if (moveHorizontal != 0f || moveVertical != 0)
+            {
+                if (!isPlayingWalkAudio)
+                {
+                    isMoving = true;
+                    isPlayingWalkAudio = true;
+                    StartCoroutine(PlayWalkAudio());
+                }
+            }
+            else
+            {
+                isMoving = false;
+                isPlayingWalkAudio = false;
+                audioSource.Stop();
+            }
+
+            rightMovement.Normalize();
+            form.transform.position += rightMovement * Time.deltaTime * speed * moveHorizontal;
+        }
+        float rotY = virtualMainCamera.transform.eulerAngles.y;
         playerBody.transform.eulerAngles = new Vector3(playerBody.transform.eulerAngles.x, rotY, playerBody.transform.eulerAngles.z);
 
         //Spirit moves with body when not in spirit form
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour
             playerSpirit.transform.position = playerBody.transform.position;
             virtualBodyCamera.transform.position = playerBody.transform.position + new Vector3(0, 0.2f, 0);
         }
+        
         #endregion
         #region Timers
         if (isInSpiritForm)

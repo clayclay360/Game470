@@ -20,6 +20,7 @@ public class Closet : Interact
                 playerScript.playerSpirit.transform.position = hidingPoint.transform.position;
             }
             playerScript.isHiding = true;
+            playerScript.playerBody.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
         else
         {
@@ -32,6 +33,7 @@ public class Closet : Interact
                 playerScript.playerSpirit.transform.position = exitPoint.transform.position;
             }
             playerScript.isHiding = false;
+            playerScript.playerBody.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
     }
 
