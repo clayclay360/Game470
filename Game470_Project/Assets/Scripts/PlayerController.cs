@@ -1,8 +1,5 @@
 using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
@@ -188,8 +185,17 @@ public class PlayerController : MonoBehaviour
     {
         while (isPlayingWalkAudio)
         {
-            audioSource.Play();
-            yield return new WaitForSeconds(audioSource.clip.length);
+            if (!isHiding)
+            {
+                audioSource.Play();
+                yield return new WaitForSeconds(audioSource.clip.length);
+            }
+            else
+            {
+                audioSource.Stop();
+                break;
+            }
+            
         }
     }
 
