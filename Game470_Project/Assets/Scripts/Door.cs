@@ -8,7 +8,8 @@ public class Door : Interact
     public bool isOpened;
 
     [Header("Audio")]
-    private AudioSource audioSource;
+    [HideInInspector] 
+    public AudioSource audioSource;
     public AudioClip creakingDoor, unlockingDoor;
 
     public void Start()

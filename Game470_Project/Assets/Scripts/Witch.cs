@@ -31,6 +31,8 @@ public class Witch : MonoBehaviour
     [Header("Linecast")]
     public Transform lincecastStart;
     public Transform linecastEnd;
+    public Transform doorLineCastStart;
+    public Transform doorLineCastEnd;
 
     [Header("Camera")]
     public CinemachineVirtualCamera virtualCamera;
@@ -40,6 +42,7 @@ public class Witch : MonoBehaviour
 
     [Header ("Audio")]
     private AudioSource audioSource;
+    public AudioSource walkingAudioSource;
 
     [HideInInspector]public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
@@ -151,6 +154,7 @@ public class Witch : MonoBehaviour
 
             // set the difference
             Vector2 difference = new Vector2(1,1);
+            walkingAudioSource.Play();
 
             // when the witch is close enough to the destination, continue.
             while (difference.x > destinationOffset ||
@@ -162,6 +166,7 @@ public class Witch : MonoBehaviour
                 difference = new Vector2(Mathf.Abs(transform.position.x - agent.destination.x),
                 Mathf.Abs(transform.position.z - agent.destination.z));
             }
+            walkingAudioSource.Stop();
 
             // when the witch has completed following the noise then continue to roam
             if (followingNoise)
@@ -190,6 +195,7 @@ public class Witch : MonoBehaviour
         Debug.Log("Able To Disappear");
         if(Vector3.Distance(transform.position, FindObjectOfType<PlayerController>().playerBody.transform.position) > 4.5f)
         {
+            walkingAudioSource.Stop();
             ableToDisappear = false;
             isRoaming = false;
             gameObject.SetActive(false);
@@ -233,6 +239,23 @@ public class Witch : MonoBehaviour
                     ChasePlayer(hit.collider.gameObject);
                     Debug.Log(hit.collider.gameObject.name);
                 }
+            }
+        }
+        if (Physics.Linecast(doorLineCastStart.position,doorLineCastEnd.position, out hit))
+        {
+            if(hit.collider.gameObject.layer == 14)
+            {
+                Door door = hit.collider.gameObject.GetComponentInParent<Door>();
+
+                // if the door is locked open it
+                if (door.locked)
+                {
+                    door.locked = false;
+                    door.audioSource.clip = door.creakingDoor;
+                    door.audioSource.Play();
+                    door.isOpened = true;
+                    door.GetComponent<Animator>().SetBool("isOpened", true);
+                }   
             }
         }
     }
