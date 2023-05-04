@@ -31,6 +31,7 @@ public class Cauldron : Interact
                                 playerScript.heldObject.transform.position = gameObject.transform.position + new Vector3(0, 0.1f, 0);
                                 ingredientsList.Add(playerScript.heldObject);
                                 playerScript.heldObject = null;
+                                playerScript.holdObjectRig.weight = 0;
                             }
                             break;
                         }
@@ -69,10 +70,10 @@ public class Cauldron : Interact
         }
     }
 
-    public override string InteractionText(GameObject heldObject)
+    public override string InteractionText(GameObject heldObject = null)
     {
         string currIngredients = "";
-        if (heldObject && heldObject.TryGetComponent<CollectableObject>(out CollectableObject objectScript))
+        if (heldObject != null && heldObject.TryGetComponent<CollectableObject>(out CollectableObject objectScript))
         {
             if (objectScript.Name == "Ashes" || objectScript.Name == "Eyes" || objectScript.Name == "Petals")
             {
@@ -84,7 +85,7 @@ public class Cauldron : Interact
             }
             else
             {
-                return "Not an Ingredient";
+                return "Blood Used";
             }
         }
         else if (ingredientsPrepared)
