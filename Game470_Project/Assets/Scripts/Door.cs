@@ -41,13 +41,13 @@ public class Door : Interact
 
     public override string InteractionText(GameObject heldObject)
     {
-        if(heldObject != null && heldObject.TryGetComponent<Key>(out Key key))
+        if(heldObject != null && heldObject.TryGetComponent<Key>(out Key key) && locked)
         {
             if(key.Name == Name)
             {
                 return "Unlock Door";
             }
-            else if (locked)
+            else
             {
                 return "Door Locked";
             }
