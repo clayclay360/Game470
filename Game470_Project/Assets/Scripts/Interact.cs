@@ -16,7 +16,7 @@ public abstract class Interact : MonoBehaviour
 
     public abstract void Interaction(GameObject player);
 
-    public abstract string InteractionText(GameObject heldObject);
+    public abstract string InteractionText(GameObject heldObject = null);
 
     private void OnCollisionEnter(Collision collision)
     {
