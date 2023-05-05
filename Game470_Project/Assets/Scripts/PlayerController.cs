@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isReading)
         {
-            if(Input.GetButtonDown("Fire2"))
+            if(Input.GetButtonUp("Fire1"))
             {
                 isReading = false;
                 noteImage.enabled = false;
@@ -222,7 +222,14 @@ public class PlayerController : MonoBehaviour
 
             if (hitObject.GetComponentInParent<Interact>() != null)
             {
-                displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
+                if (heldObject != null)
+                {
+                    displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
+                }
+                else
+                {
+                    displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText();
+                }
             }
             else if (hitObject.GetComponentInParent<Witch>() != null && heldObject != null)
             {
@@ -263,7 +270,7 @@ public class PlayerController : MonoBehaviour
                 hitObject.GetComponentInParent<Witch>().isAlive = false;
                 Debug.LogWarning("Potion Thrown");
             }
-            else if(heldObject != null)
+            else if(heldObject != null && !isReading)
             {
                 Debug.Log("Drop Item");
                 DropItem();
