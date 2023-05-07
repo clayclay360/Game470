@@ -222,13 +222,14 @@ public class PlayerController : MonoBehaviour
 
             if (hitObject.GetComponentInParent<Interact>() != null)
             {
-                if (heldObject != null)
+                Debug.Log("Object interactable");
+                if (heldObject != null && hitObject.GetComponentInParent<CollectableObject>() != null)
                 {
-                    displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
+                    displayText.text = "Drop "+heldObject.name+"\n(Will Alert Witch)";
                 }
                 else
                 {
-                    displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText();
+                    displayText.text = hitObject.GetComponentInParent<Interact>().InteractionText(heldObject);
                 }
             }
             else if (hitObject.GetComponentInParent<Witch>() != null && heldObject != null)
@@ -260,10 +261,15 @@ public class PlayerController : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            if (hitObject.GetComponentInParent<Interact>() != null)
+            if(hitObject.GetComponentInParent<CollectableObject>() != null && heldObject == null)
+            {
+                hitObject.GetComponentInParent<CollectableObject>().Interaction(gameObject);
+                Debug.Log("Grab Item");
+            }
+            else if (hitObject.GetComponentInParent<Interact>() != null)
             {
                 hitObject.GetComponentInParent<Interact>().Interaction(gameObject);
-                Debug.Log("Grab Item");
+                Debug.Log("Interact");
             }
             else if (hitObject.GetComponentInParent<Witch>() != null && heldObject.GetComponent<CollectableObject>().Name == "Potion")
             {

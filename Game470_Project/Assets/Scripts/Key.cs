@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Key : Interact
+public class Key : CollectableObject
 {
     public override void Interaction(GameObject player)
     {
