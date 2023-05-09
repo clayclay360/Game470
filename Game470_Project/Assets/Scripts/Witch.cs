@@ -248,7 +248,7 @@ public class Witch : MonoBehaviour
                 Door door = hit.collider.gameObject.GetComponentInParent<Door>();
 
                 // if the door is locked open it
-                if (door.locked)
+                if (door.locked || !door.isOpened)
                 {
                     door.locked = false;
                     door.audioSource.clip = door.creakingDoor;
